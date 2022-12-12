@@ -1,0 +1,6 @@
+# This is a template file, DO NOT add any secret keys to this file.
+# Instead, copy this file to a file named "app.config" and then put
+# any needed secrets in it.
+
+[secrets]
+apikey = put_your_api_key_here

@@ -8,7 +8,6 @@ def get_apikey():
     config = configparser.ConfigParser()
     config.read('app.config')
     apikey_from_file = config['secrets']['apikey']
-    print(apikey_from_file)
     return apikey_from_file
 
 
@@ -18,9 +17,12 @@ class NoSuchLocation(Exception):
 
 
 # Call the API to get the location
-def get_location():
+def get_location(api_key):
+    # get the zipcode from the user. For debugging, this has been
+    # hardcoded
+    zipcode = "02324"
     location_url = 'https://dataservice.accuweather.com/locations/v1/' \
-                'postalcodes/search?apikey=APIKEYGOESHERE&q=02324'
+                   'postalcodes/search?apikey={}&q={}'.format(api_key, zipcode)
 
     response = requests.get(location_url)
 
@@ -41,7 +43,7 @@ def get_conditions(key, api_key):
 
 try:
     apikey = get_apikey()
-    location_key = get_location()
-    get_conditions(location_key)
+    location_key = get_location(apikey)
+    get_conditions(location_key, apikey)
 except NoSuchLocation:
     print("Unable to get the location")
