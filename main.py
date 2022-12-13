@@ -12,8 +12,6 @@ def get_apikey():
     except KeyError:
         raise BadSecrets
     return apikey_from_file
-    # A default exception handler
-
 
 class BadSecrets(Exception):
     pass
@@ -25,9 +23,12 @@ class NoSuchLocation(Exception):
 
 # Call the API to get the location
 def get_location(api_key):
+    print("Set a location (current location: not set)")
     # get the zipcode from the user. For debugging, this has been
     # hardcoded
+
     zipcode = input("Put in zip code here:")
+
     location_url = 'https://dataservice.accuweather.com/locations/v1/' \
                    'postalcodes/search?apikey={}&q={}'.format(api_key, zipcode)
 
@@ -49,6 +50,7 @@ def get_conditions(key, api_key):
     response = requests.get(conditions_url)
     json_version = response.json()
     print("Current Conditions: {}".format(json_version[0].get('WeatherText')))
+    print("Get forecast for tomorrow")
 
     is_day = json_version[0].get('IsDayTime')
     print_time_status(is_day)
