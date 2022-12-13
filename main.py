@@ -49,6 +49,6 @@ try:
     location_key = get_location(apikey)
     get_conditions(location_key, apikey)
 except NoSuchLocation:
-    print("Unable to get the location & exit")
+    print("Unable to get the location & exit..")
     print ("exit")
 
