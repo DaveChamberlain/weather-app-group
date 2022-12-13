@@ -20,7 +20,7 @@ class NoSuchLocation(Exception):
 def get_location(api_key):
     # get the zipcode from the user. For debugging, this has been
     # hardcoded
-    zipcode = "02324"
+    zipcode = input("Put in zip code here:")
     location_url = 'https://dataservice.accuweather.com/locations/v1/' \
                    'postalcodes/search?apikey={}&q={}'.format(api_key, zipcode)
 
