@@ -41,6 +41,10 @@ def get_conditions(key, api_key):
     print("Current Conditions: {}".format(json_version[0].get('WeatherText')))
 
 
+def get_current_temp(location_key, api_key):
+    pass
+
+
 try:
     print("Welcome to my weather app!  This will get the current conditions for a zipcode.")
     apikey = get_apikey()
