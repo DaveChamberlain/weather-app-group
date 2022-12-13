@@ -33,12 +33,18 @@ def get_location(api_key):
     return key
 
 
+def print_time_status(is_day):
+    print("Day/Night: {} time".format("Day" if is_day else "Night"))
+
 def get_conditions(key, api_key):
     conditions_url = 'https://dataservice.accuweather.com/currentconditions/v1/' \
         '{}?apikey={}'.format(key, api_key)
     response = requests.get(conditions_url)
     json_version = response.json()
     print("Current Conditions: {}".format(json_version[0].get('WeatherText')))
+
+    is_day = json_version[0].get('IsDayTime')
+    print_time_status(is_day)
 
 
 try:
