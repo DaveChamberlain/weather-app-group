@@ -2,7 +2,7 @@ import requests
 import configparser
 
 
-# get the API kiey from the config file and return it to the caller.
+# get the API key from the config file and return it to the caller.
 #
 def get_apikey():
     config = configparser.ConfigParser()
