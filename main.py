@@ -55,6 +55,9 @@ def get_conditions(key, api_key):
     is_day = json_version[0].get('IsDayTime')
     print_time_status(is_day)
 
+    # gets current temperature in imperial units
+    print("Current Temperature: {}\n".format(json_version[0]['Temperature']['Imperial']['Value']))
+
 
 try:
     apikey = get_apikey()
