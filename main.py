@@ -42,6 +42,7 @@ def get_conditions(key, api_key):
 
 
 try:
+    print("Welcome to my weather app!  This will get the current conditions for a zipcode.")
     apikey = get_apikey()
     location_key = get_location(apikey)
     get_conditions(location_key, apikey)
