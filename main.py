@@ -2,14 +2,21 @@ import requests
 import configparser
 
 
-# get the API kiey from the config file and return it to the caller.
+# get the API key from the config file and return it to the caller.
 #
 def get_apikey():
-    config = configparser.ConfigParser()
-    config.read('app.config')
-    apikey_from_file = config['secrets']['apikey']
+    try:
+        config = configparser.ConfigParser()
+        config.read('app.config')
+        apikey_from_file = config['secrets']['apikey']
+    except KeyError:
+        raise BadSecrets
     return apikey_from_file
+    # A default exception handler
 
+
+class BadSecrets(Exception):
+    pass
 
 # A default exception handler
 class NoSuchLocation(Exception):
@@ -42,9 +49,10 @@ def get_conditions(key, api_key):
 
 
 try:
-    print("Welcome to my weather app!  This will get the current conditions for a zipcode.")
     apikey = get_apikey()
     location_key = get_location(apikey)
     get_conditions(location_key, apikey)
 except NoSuchLocation:
     print("Unable to get the location")
+except BadSecrets:
+    print("Unable to use secret file")
