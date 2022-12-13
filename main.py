@@ -40,9 +40,8 @@ def get_conditions(key, api_key):
     json_version = response.json()
     print("Current Conditions: {}".format(json_version[0].get('WeatherText')))
 
-
-def get_current_temp(location_key, api_key):
-    pass
+    # gets current temperature in imperial units
+    print("Current Temperature: {}\n".format(json_version[0]['Temperature']['Imperial']['Value']))
 
 
 try:
