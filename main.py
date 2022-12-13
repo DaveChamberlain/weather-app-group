@@ -9,7 +9,7 @@ def get_apikey():
     config.read('app.config')
     apikey_from_file = config['secrets']['apikey']
     return apikey_from_file
-
+print("Set a location (current location: not set)")
 
 # A default exception handler
 class NoSuchLocation(Exception):
@@ -20,6 +20,7 @@ class NoSuchLocation(Exception):
 def get_location(api_key):
     # get the zipcode from the user. For debugging, this has been
     # hardcoded
+    print("Show current conditions")
     zipcode = "02324"
     location_url = 'https://dataservice.accuweather.com/locations/v1/' \
                    'postalcodes/search?apikey={}&q={}'.format(api_key, zipcode)
@@ -39,6 +40,7 @@ def get_conditions(key, api_key):
     response = requests.get(conditions_url)
     json_version = response.json()
     print("Current Conditions: {}".format(json_version[0].get('WeatherText')))
+    print("Get forecast for tomorrow")
 
 
 try:
@@ -48,3 +50,5 @@ try:
     get_conditions(location_key, apikey)
 except NoSuchLocation:
     print("Unable to get the location")
+    print ("exit")
+
