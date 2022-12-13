@@ -5,11 +5,16 @@ import configparser
 # get the API key from the config file and return it to the caller.
 #
 def get_apikey():
-    config = configparser.ConfigParser()
-    config.read('app.config')
-    apikey_from_file = config['secrets']['apikey']
+    try:
+        config = configparser.ConfigParser()
+        config.read('app.config')
+        apikey_from_file = config['secrets']['apikey']
+    except KeyError:
+        raise BadSecrets
     return apikey_from_file
-print("Set a location (current location: not set)")
+
+class BadSecrets(Exception):
+    pass
 
 # A default exception handler
 class NoSuchLocation(Exception):
@@ -18,10 +23,12 @@ class NoSuchLocation(Exception):
 
 # Call the API to get the location
 def get_location(api_key):
+    print("Set a location (current location: not set)")
     # get the zipcode from the user. For debugging, this has been
     # hardcoded
-    print("Show current conditions")
-    zipcode = "02324"
+
+    zipcode = input("Put in zip code here:")
+
     location_url = 'https://dataservice.accuweather.com/locations/v1/' \
                    'postalcodes/search?apikey={}&q={}'.format(api_key, zipcode)
 
@@ -34,6 +41,9 @@ def get_location(api_key):
     return key
 
 
+def print_time_status(is_day):
+    print("Day/Night: {} time".format("Day" if is_day else "Night"))
+
 def get_conditions(key, api_key):
     conditions_url = 'https://dataservice.accuweather.com/currentconditions/v1/' \
         '{}?apikey={}'.format(key, api_key)
@@ -42,13 +52,15 @@ def get_conditions(key, api_key):
     print("Current Conditions: {}".format(json_version[0].get('WeatherText')))
     print("Get forecast for tomorrow")
 
+    is_day = json_version[0].get('IsDayTime')
+    print_time_status(is_day)
+
 
 try:
-    print("Welcome to my weather app!  This will get the current conditions for a zipcode.")
     apikey = get_apikey()
     location_key = get_location(apikey)
     get_conditions(location_key, apikey)
 except NoSuchLocation:
-    print("Unable to get the location & exit..")
-    print ("exit")
-
+    print("Unable to get the location")
+except BadSecrets:
+    print("Unable to use secret file")
